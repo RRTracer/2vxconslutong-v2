@@ -1,17 +1,27 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import Hero from "../components/Hero";
-import Services from "../components/Services";
-import ContactCard from "../components/ContactCard";
+import { Link } from "react-router";
+import logo from "../../asset/logo-sans-fond.png";
+import { useT } from "../i18n/LanguageProvider";
 
 const HomePage = () => {
+  const t = useT();
   return (
-    <div>
-      <main>
-        <Hero />
-        <Services />
-        <ContactCard />
-      </main>
+    <div className="home-center">
+      <img
+        src={logo}
+        alt="2VX Consulting"
+        className="home-logo"
+      />
+      <p className="home-name">2VX Consulting</p>
+      <p className="home-tagline">{t("home.tagline")}</p>
+      <div className="home-actions">
+        <Link to="/services" className="btn-primary">
+          {t("home.cta_services")}
+        </Link>
+        <Link to="/contact" className="btn-outline">
+          {t("home.cta_contact")}
+        </Link>
+      </div>
     </div>
   );
 };

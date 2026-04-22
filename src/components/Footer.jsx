@@ -1,32 +1,29 @@
 import React from "react";
-import { useT } from "../i18n/LanguageProvider";
+import { Link } from "react-router";
 import logo from "../../asset/logo-sans-fond.png";
+import { useT } from "../i18n/LanguageProvider";
 
 const Footer = () => {
-  const t = useT();
-  return (
-    <footer className="site-footer">
-      <div className="container footer-grid">
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <img src={logo} alt="2vxconsulting" style={{ height: 56 }} />
-          <div
-            style={{ color: "var(--muted)" }}
-            dangerouslySetInnerHTML={{
-              __html: t("footer.copy", { year: new Date().getFullYear() }),
-            }}
-          />
-        </div>
+  const t    = useT();
+  const year = new Date().getFullYear();
 
-        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          <nav className="sitemap" aria-label="Footer">
-            <a href="/">{t("footer.services")}</a>
-            <a href="/about">{t("footer.about")}</a>
-            <a href="#contact">{t("footer.contact")}</a>
-          </nav>
-          <div style={{ color: "var(--muted)" }}>
-            contact@2vxconsulting.example
-          </div>
-        </div>
+  return (
+    <footer className="site-footer" role="contentinfo">
+      <div className="container footer-inner">
+
+        <Link to="/" className="footer-brand" aria-label="Accueil">
+          <img src={logo} alt="2VX Consulting" />
+          <span>2VX Consulting</span>
+        </Link>
+
+        <nav className="footer-links" aria-label="Footer">
+          <Link className="footer-a" to="/services">{t("nav.services")}</Link>
+          <Link className="footer-a" to="/about">{t("nav.about")}</Link>
+          <Link className="footer-a" to="/contact">{t("nav.contact")}</Link>
+          <Link className="footer-a" to="/terms">{t("footer.terms")}</Link>
+        </nav>
+
+        <span className="footer-copy">{t("footer.copy", { year })}</span>
       </div>
     </footer>
   );

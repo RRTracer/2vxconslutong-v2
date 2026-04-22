@@ -1,24 +1,34 @@
 import React from "react";
 import { useT } from "../i18n/LanguageProvider";
 
-const items = [
-  { titleKey: "services.s1.title", bodyKey: "services.s1.body" },
-  { titleKey: "services.s2.title", bodyKey: "services.s2.body" },
-  { titleKey: "services.s3.title", bodyKey: "services.s3.body" },
+const SERVICES = [
+  { key: "s1", icon: "🎯" },
+  { key: "s2", icon: "🤝" },
+  { key: "s3", icon: "📈" },
+  { key: "s4", icon: "🔍" },
+  { key: "s5", icon: "🚀" },
+  { key: "s6", icon: "⚙️" },
 ];
 
 const Services = () => {
   const t = useT();
+
   return (
-    <section id="services" className="container services">
-      <h2 style={{ margin: "0 0 1rem" }}>{t("hero.services")}</h2>
-      <div className="services-grid">
-        {items.map((s) => (
-          <article key={s.titleKey} className="service">
-            <h3>{t(s.titleKey)}</h3>
-            <p>{t(s.bodyKey)}</p>
-          </article>
-        ))}
+    <section id="services" className="section">
+      <div className="container">
+        <div className="section-label">{t("services.label")}</div>
+        <h2 className="section-title">{t("services.title")}</h2>
+        <p className="section-sub">{t("services.subtitle")}</p>
+
+        <div className="services-grid">
+          {SERVICES.map(({ key, icon }) => (
+            <article key={key} className="service-card">
+              <div className="service-icon" aria-hidden="true">{icon}</div>
+              <h3>{t(`services.${key}.title`)}</h3>
+              <p>{t(`services.${key}.body`)}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

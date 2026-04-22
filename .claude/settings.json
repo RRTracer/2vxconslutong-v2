@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5174)",
+      "Bash(curl -s http://localhost:5174/src/pages/HomePage.jsx)",
+      "Bash(curl -s \"http://localhost:5174/\")",
+      "Bash(curl -s http://localhost:5175/)",
+      "Bash(grep -oP '\\(html|:root\\)[^\\\\{]*\\\\{[^\\\\}]{0,200}\\\\}')",
+      "Bash(grep -rh 't\\(`[^`]*`\\)' src/components/)",
+      "Bash(grep -oP '`[^`]*`')",
+      "Bash(curl -s http://localhost:5176/)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

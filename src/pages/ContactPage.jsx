@@ -6,7 +6,7 @@ const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || "";
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "";
 const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  || "";
 
-const ContactCard = () => {
+const ContactPage = () => {
   const t    = useT();
   const form = useRef(null);
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
@@ -18,64 +18,57 @@ const ContactCard = () => {
       if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
         await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, { publicKey: PUBLIC_KEY });
       } else {
-        const data = Object.fromEntries(new FormData(form.current));
-        console.info("[ContactForm] EmailJS not configured — payload:", data);
+        /* dev mode — simulate send */
+        console.info("[Contact] EmailJS not configured:", Object.fromEntries(new FormData(form.current)));
         await new Promise((r) => setTimeout(r, 700));
       }
       setStatus("success");
       form.current.reset();
     } catch (err) {
-      console.error("[ContactForm] error:", err);
+      console.error("[Contact] EmailJS error:", err);
       setStatus("error");
     }
   };
 
   return (
-    <section id="contact" className="section">
+    <div className="page">
       <div className="container">
-        <div className="section-label">{t("contact.label")}</div>
-        <h2 className="section-title">{t("contact.title")}</h2>
-        <p className="section-sub">{t("contact.subtitle")}</p>
+        <header className="page-header">
+          <p className="page-label">{t("contact.label")}</p>
+          <h1 className="page-h1">{t("contact.title")}</h1>
+          <p className="page-sub">{t("contact.subtitle")}</p>
+        </header>
 
         <div className="contact-grid">
           {/* Info */}
-          <div className="contact-info-card">
+          <aside className="contact-info">
             <h3>{t("contact.info_title")}</h3>
             <p>{t("contact.info_desc")}</p>
 
             <div className="contact-detail">
-              <div className="contact-detail-icon">✉️</div>
-              <div className="contact-detail-text">
-                <strong>Email</strong>
-                <span>{t("contact.email_value")}</span>
-              </div>
+              <span className="contact-detail-label">{t("contact.email_label")}</span>
+              <span className="contact-detail-val">{t("contact.email_value")}</span>
             </div>
             <div className="contact-detail">
-              <div className="contact-detail-icon">📞</div>
-              <div className="contact-detail-text">
-                <strong>{t("contact.phone")}</strong>
-                <span>{t("contact.phone_value")}</span>
-              </div>
+              <span className="contact-detail-label">{t("contact.phone_label")}</span>
+              <span className="contact-detail-val">{t("contact.phone_value")}</span>
             </div>
             <div className="contact-detail">
-              <div className="contact-detail-icon">📍</div>
-              <div className="contact-detail-text">
-                <strong>{t("contact.location")}</strong>
-                <span>{t("contact.location_value")}</span>
-              </div>
+              <span className="contact-detail-label">{t("contact.location_label")}</span>
+              <span className="contact-detail-val">{t("contact.location_value")}</span>
             </div>
-          </div>
+          </aside>
 
           {/* Form */}
-          <div className="contact-form-card">
+          <div className="contact-form-wrap">
             {status === "success" && (
               <div className="form-alert form-alert-success" role="alert">
-                ✓ {t("contact.success")}
+                {t("contact.success")}
               </div>
             )}
             {status === "error" && (
               <div className="form-alert form-alert-error" role="alert">
-                ✗ {t("contact.error")}
+                {t("contact.error")}
               </div>
             )}
 
@@ -83,27 +76,27 @@ const ContactCard = () => {
               <div className="form-2col">
                 <div className="form-row">
                   <label htmlFor="from_name">{t("contact.fullname")} *</label>
-                  <input id="from_name" name="from_name" type="text" className="form-input"
-                    placeholder="Jean Dupont" required />
+                  <input id="from_name" name="from_name" type="text"
+                    className="form-input" placeholder="Jean Dupont" required />
                 </div>
                 <div className="form-row">
                   <label htmlFor="company">{t("contact.company")}</label>
-                  <input id="company" name="company" type="text" className="form-input"
-                    placeholder="Acme Motorsport" />
+                  <input id="company" name="company" type="text"
+                    className="form-input" placeholder="Acme Racing" />
                 </div>
               </div>
 
               <div className="form-row">
-                <label htmlFor="reply_to">Email *</label>
-                <input id="reply_to" name="reply_to" type="email" className="form-input"
-                  placeholder="you@example.com" required />
+                <label htmlFor="reply_to">{t("contact.email")} *</label>
+                <input id="reply_to" name="reply_to" type="email"
+                  className="form-input" placeholder="you@example.com" required />
               </div>
 
               <div className="form-2col">
                 <div className="form-row">
                   <label htmlFor="phone">{t("contact.phone")}</label>
-                  <input id="phone" name="phone" type="tel" className="form-input"
-                    placeholder="+33 6 00 00 00 00" />
+                  <input id="phone" name="phone" type="tel"
+                    className="form-input" placeholder="+33 6 00 00 00 00" />
                 </div>
                 <div className="form-row">
                   <label htmlFor="subject">{t("contact.subject")}</label>
@@ -119,22 +112,22 @@ const ContactCard = () => {
 
               <div className="form-row">
                 <label htmlFor="message">{t("contact.message")} *</label>
-                <textarea id="message" name="message" className="form-input"
-                  placeholder="Décrivez votre projet…" required />
+                <textarea id="message" name="message"
+                  className="form-input" placeholder="…" required />
               </div>
 
               <div className="form-footer">
                 <span className="form-note">{t("contact.wait")}</span>
-                <button type="submit" className="form-submit" disabled={status === "sending"}>
-                  {status === "sending" ? t("contact.sending") : t("contact.send") + " →"}
+                <button type="submit" className="btn-primary" disabled={status === "sending"}>
+                  {status === "sending" ? t("contact.sending") : t("contact.send")}
                 </button>
               </div>
             </form>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default ContactCard;
+export default ContactPage;
