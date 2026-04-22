@@ -19,7 +19,7 @@ const DevBanner = () => {
         letterSpacing: "0.03em",
       }}
     >
-      Site en cours de développement — version de prévisualisation
+      Site en cours de développement — version de prévisualisation pour le client
     </div>
   );
 };
