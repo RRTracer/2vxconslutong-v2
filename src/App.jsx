@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { LanguageProvider } from "./i18n/LanguageProvider";
+import DevBanner    from "./components/DevBanner";
 import NavBar       from "./components/NavBar";
 import Footer       from "./components/Footer";
 import HomePage     from "./pages/HomePage";
@@ -14,6 +15,7 @@ function App() {
     <div className="site-root">
       <Router>
         <LanguageProvider>
+          <DevBanner />
           <NavBar />
           <main>
             <Routes>
